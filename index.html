@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game! Set! Go!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #game-container {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        p {
+            color: #555;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        #start-button {
+            position: absolute;
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+            animation: fadeIn 2s ease-in-out;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #start-button:hover {
+            transform: scale(1.2);
+            background-color: #0056b3;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes sparkle {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2) translateY(-10px);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) translateY(-20px);
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ffcc00;
+            border-radius: 50%;
+            animation: sparkle 1s infinite;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Game! Set! Go!</h1>
+        <p>Press the button below to start the game.</p>
+        <button id="start-button">Start Game</button>
+        <div class="sparkle" style="top: 30%; left: 40%;"></div>
+        <div class="sparkle" style="top: 60%; left: 20%; animation-delay: 0.2s;"></div>
+        <div class="sparkle" style="top: 50%; left: 70%; animation-delay: 0.4s;"></div>
+        <div class="sparkle" style="top: 20%; left: 80%; animation-delay: 0.6s;"></div>
+    </div>
+
+    <script>
+        const button = document.getElementById('start-button');
+        const container = document.getElementById('game-container');
+
+        function moveButton() {
+            const containerRect = container.getBoundingClientRect();
+            const buttonRect = button.getBoundingClientRect();
+
+            // Calculate a new random position
+            const maxLeft = containerRect.width - buttonRect.width;
+            const maxTop = containerRect.height - buttonRect.height;
+
+            const newLeft = Math.random() * maxLeft;
+            const newTop = Math.random() * maxTop;
+
+            button.style.left = `${newLeft}px`;
+            button.style.top = `${newTop}px`;
+        }
+
+        // Center the button initially
+        window.onload = () => {
+            const containerRect = container.getBoundingClientRect();
+            const buttonRect = button.getBoundingClientRect();
+            const initialLeft = (containerRect.width - buttonRect.width) / 2;
+            const initialTop = (containerRect.height - buttonRect.height) / 2;
+
+            button.style.left = `${initialLeft}px`;
+            button.style.top = `${initialTop}px`;
+        };
+
+        button.addEventListener('mouseover', moveButton);
+
+        // Adding sparkles around the screen
+        function createSparkles() {
+            const sparkleCount = 4;
+            for (let i = 0; i < sparkleCount; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                sparkle.style.top = `${Math.random() * 100}%`;
+                sparkle.style.left = `${Math.random() * 100}%`;
+                sparkle.style.animationDelay = `${Math.random()}s`;
+                container.appendChild(sparkle);
+            }
+        }
+
+        createSparkles();
+    </script>
+</body>
+</html>
